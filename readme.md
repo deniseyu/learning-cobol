@@ -62,7 +62,10 @@ start coding. Every COBOL program has a bunch of parts. If the part isn't being 
 1. ENVIRONMENT DIVISION
 1. DATA DIVISION
 1. PROCEDURE DIVISION
+1. JOY DIVISION*
 1. STOP RUN
+
+\*  kidding, there is no joy division
 
 #### IDENTIFICATION DIVISION
 
