@@ -1,4 +1,4 @@
-## What is COBOL?
+## What is COBOL?
 
 COBOL stands for COmmon Business Oriented Language. Originally developed
 in 1959 for defense systems, it is now commonly used in legacy banking systems.
@@ -49,7 +49,7 @@ cobc -free -x -o hello hello.cob
 ./hello
 ```
 
-## OpenCOBOL vs other COBOLs
+## OpenCOBOL vs other COBOLs
 
 The different COBOLs have some small stylistic differences, and you can tell by reading tutorials written in different years. For example, most OpenCOBOL code uses lowercase division declarations, but older COBOL uses uppercase. Indentation looks a little different between the two. Historical COBOL also conventionally uses Hungarian notation to prefix variable names (ie. "WS-USERNAME"). GnuCOBOL's compiler can build both historical and modern COBOL styles, you just need to pass it the `-free` flag when compiling if using modern.
 
@@ -68,7 +68,7 @@ start coding. Every COBOL program has a bunch of parts. If the part isn't being 
 
 Just some metadata about what the program is, who wrote it, etc.
 
-#### ENVIRONMENT DIVISION
+#### ENVIRONMENT DIVISION
 
 Defines things about the procedure's environment, such as the location of the compiler. If you're doing any filesystem I/O, it needs to be declared here.
 
