@@ -1,0 +1,38 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLO-WORLD.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+           01 USER-INPUT PIC 9(10).
+           01 THREE PIC 9(1) VALUE 3.
+           01 FIVE PIC 9(1) VALUE 5.
+           01 FIFTEEN PIC 9(2) VALUE 15.
+           01 QUOTIENT PIC 9(10).
+           01 REMAINING PIC 9(10).
+           01 OUTCOME-TEXT PIC A(12) VALUE "No buzz.".
+
+       PROCEDURE DIVISION.
+           DISPLAY 'Lets fizz some buzzes'.
+           DISPLAY 'Enter a number!'.
+           ACCEPT USER-INPUT.
+
+           PERFORM PLAY-FIZZBUZZ
+           STOP RUN.
+
+       PLAY-FIZZBUZZ.
+           DIVIDE USER-INPUT BY THREE GIVING QUOTIENT REMAINDER REMAINING.
+           IF REMAINING = ZERO THEN
+               MOVE "FIZZ!" TO OUTCOME-TEXT
+           END-IF.
+
+           DIVIDE USER-INPUT BY FIVE GIVING QUOTIENT REMAINDER REMAINING.
+           IF REMAINING = ZERO THEN
+               MOVE "BUZZ!" TO OUTCOME-TEXT
+           END-IF.
+
+           DIVIDE USER-INPUT BY FIFTEEN GIVING QUOTIENT REMAINDER REMAINING.
+           IF REMAINING = ZERO THEN
+               MOVE "FIZZBUZZ!" TO OUTCOME-TEXT
+           END-IF.
+
+           DISPLAY OUTCOME-TEXT.
+           .
