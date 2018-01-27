@@ -93,9 +93,11 @@ Tells the compiler that the program is over. You can define stuff below it like
 
 ## A ham-fisted FizzBuzz implementation
 
-A stateful, imperative, and repetitive FizzBuzz.
+A stateful, imperative, and soaking wet* FizzBuzz.
 
-I'm a COBOL noob so I have no idea if
+I'm a COBOL noob so I have no idea if you can define functions with parameters. For now I'm guessing no, because so far I've only seen global read/write pointers ¯\\_(ツ)_/¯
+
+\* as in, it's not very DRY, get it???
 
 ```
 IDENTIFICATION DIVISION.
@@ -106,7 +108,7 @@ WORKING-STORAGE SECTION.
     01 THREE PIC 9(1) VALUE 3.
     01 FIVE PIC 9(1) VALUE 5.
     01 FIFTEEN PIC 9(2) VALUE 15.
-    01 RESULT PIC 9(10).
+    01 QUOTIENT PIC 9(10).
     01 REMAINING PIC 9(10).
     01 OUTCOME-TEXT PIC A(12) VALUE "No buzz.".
 
@@ -115,27 +117,29 @@ PROCEDURE DIVISION.
     DISPLAY 'Enter a number!'.
     ACCEPT USER-INPUT.
 
-    DIVIDE USER-INPUT BY THREE GIVING RESULT REMAINDER REMAINING.
+    PERFORM PLAY-FIZZBUZZ
+    STOP RUN.
+
+PLAY-FIZZBUZZ.
+    DIVIDE USER-INPUT BY THREE GIVING QUOTIENT REMAINDER REMAINING.
     IF REMAINING = ZERO THEN
         MOVE "FIZZ!" TO OUTCOME-TEXT
     END-IF.
 
-    DIVIDE USER-INPUT BY FIVE GIVING RESULT REMAINDER REMAINING.
+    DIVIDE USER-INPUT BY FIVE GIVING QUOTIENT REMAINDER REMAINING.
     IF REMAINING = ZERO THEN
         MOVE "BUZZ!" TO OUTCOME-TEXT
     END-IF.
 
-    DIVIDE USER-INPUT BY FIFTEEN GIVING RESULT REMAINDER REMAINING.
+    DIVIDE USER-INPUT BY FIFTEEN GIVING QUOTIENT REMAINDER REMAINING.
     IF REMAINING = ZERO THEN
         MOVE "FIZZBUZZ!" TO OUTCOME-TEXT
     END-IF.
 
     DISPLAY OUTCOME-TEXT.
-    STOP RUN.
+    .
 ```
 
 ## Unit testing?
 
-There are libraries that people have written...
-
-## COBOL on the web
+There are libraries that people have written... I'm sure they exist....
