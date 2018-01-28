@@ -1,7 +1,13 @@
+This past weekend, I finally ventured out of my burnout-induced cave to attend a tech event on a weekend: [PLIBMTTBHGATY](http://plibmttbhgaty.com/), one of my favorite formats for events where you learn stuff. The Programming Language I've Been Meaning To Try that I chose was COBOL. Surprisingly, no one else (except Spike) wanted to learn COBOL with me?!?
+
+My main takeaway from the day is that COBOL was a *lot* easier to get started with than I anticipated. The syntax was obviously unlike any modern programming language I've used, but it was easy to read, because it was so imperative and there was no magic going on. After all, COBOL was one of the first languages designed for human readability.
+
+Learning COBOL will probably be easier for folks who have some experience with languages that are compiled and statically typed, and who have a basic understanding of what pointers are. Anyone who's dabbled in C or a C-like language will quickly get up to speed with COBOL's way of forcing you to declare up front every variable you're going to need, what type it is, and how big it's going to be.
+
 ## What is COBOL?
 
 COBOL stands for COmmon Business Oriented Language. Originally developed
-in 1959 for defense systems, it is now commonly used in legacy banking systems.
+in 1959 for defense systems, it is now commonly seen in legacy banking systems, yay!
 It is good at handling large file systems, which makes it well-suited for business
 domains where high volumes of data need to be processed.
 
@@ -9,28 +15,20 @@ COBOL is a "high-level" programming language in the sense that you don't have to
 write 0s and 1s. Over the years, modern language features including object orientation
 have been added to it.
 
-There are various implementations of the COBOL compiler; the most popular one
-today seems to be OpenCOBOL (also called GnuCOBOL) which compiles COBOL into C, and then
-uses gcc to compile C into bytecode.
+There are various implementations of the COBOL compiler. The most popular one today seems to be [OpenCOBOL](https://open-cobol.sourceforge.io/faq/) (also called GnuCOBOL) which compiles COBOL into C, and then
+uses gcc to compile C into bytecode. OpenCOBOL is an actively-maintained Open Source project which is readily available on lots of Linux package managers. A bunch of companies, maybe most notably IBM, also have closed-source implementations.
 
-## OpenCOBOL + Docker
+I mostly followed [Tutorialspoint's introduction materials](https://www.tutorialspoint.com/cobol/index.htm) and used the official documentation. COBOL has pretty user-friendly compiler error messages which can guide you along.
 
-OpenCOBOL doesn't run on MacOSX, so I had to use a Docker image or Linux VM.
-Thankfully, a kind person on the internet built this image:
+## Getting Started with OpenCOBOL + Docker
 
-```
-# Run from latest
-from ubuntu:latest
-maintainer Greg Coleman <gregory.m.coleman@gmail.com>
+I probably could not have gotten a dev environment set up within a reasonable amount of time without OpenCOBOL.
 
-#update
-run apt-get update
-run apt-get install -y open-cobol gcc
-```
+OpenCOBOL doesn't run on MacOSX, so I had to use a Docker image or Linux VM. Thankfully, [a Docker image existed already](https://hub.docker.com/r/gregcoleman/docker-cobol/)!
 
-I volume-mapped my source code into the container because I'm a Vim diva:
+I volume-mapped my source code into the container when running the container so I could continue to use my own Vim setup:
 
-`docker run -it -v /Users/pivotal/Documents/cobol:/root/cobol gregcoleman/docker-cobol /bin/bash`
+`docker run -it -v $PWD:/root/cobol -w /root/cobol gregcoleman/docker-cobol /bin/bash`
 
 The standard 'hello-world.cob' program looks like this:
 
@@ -51,11 +49,11 @@ cobc -free -x -o hello hello.cob
 
 ## OpenCOBOL vs other COBOLs
 
-The different COBOLs have some small stylistic differences, and you can tell by reading tutorials written in different years. For example, most OpenCOBOL code uses lowercase division declarations, but older COBOL uses uppercase. Indentation looks a little different between the two. Historical COBOL also conventionally uses Hungarian notation to prefix variable names (ie. "WS-USERNAME"). GnuCOBOL's compiler can build both historical and modern COBOL styles, you just need to pass it the `-free` flag when compiling if using modern.
+The different COBOLs have some small stylistic differences, and you can tell by reading tutorials written in different years. For example, most OpenCOBOL code uses lowercase division declarations, but older COBOL uses uppercase. Indentation looks a little different between the two. Historical COBOL also conventionally uses Hungarian notation to prefix variable names (ie. "WS-USERNAME"). GnuCOBOL's compiler can build both historical and modern COBOL styles (as well as a hybrid between the two), you just need to pass it the `-free` flag when compiling if using any modern syntax.
 
 ## Components of a COBOL program
 
-Like Java, writing COBOL involves a lot of faffing around before you can actually
+Like some other languages, writing COBOL involves a lot of faffing around before you can actually
 start coding. Every COBOL program has a bunch of parts. If the part isn't being used, it can be omitted.
 
 1. IDENTIFICATION DIVISION
@@ -86,19 +84,21 @@ All variable declarations have four parts:
 | Tells the compiler what type of declaration operation this is. Usually will be **01** which means "record this one thing". | The name of the variable. There are some rules: must be alphanumeric, not too long, and use "-" to conventionally delimit multiple words. | Basically a code for the type, with some more rules. An alphabetic value up to 99 bytes long will be `PIC A(99)`. | Optionally, you can initialize the variable with a value. |
 | 01 | someTweet | PIC X(280) | "I preferred 140 characters" |
 
+[Here is a more in-depth explanation of data types in COBOL](https://www.tutorialspoint.com/cobol/cobol_data_types.htm) .
+
 #### PROCEDURE DIVISION
 
-Where the fun happens! All behaviour goes here. You can reassign variables declared in the DATA DIVISION (within the constraints of the byte-size requirements), but you can't create new ones. Kind of like the `main()` convention in C-like languages.
+Where the fun happens! All behaviour goes here. You can reassign variables declared in the DATA DIVISION (within the constraints of the data type and byte-size requirements), but you can't create new ones. Kind of like the `main()` convention in C-like languages.
 
 #### STOP RUN
 
-Tells the compiler that the program is over. You can define stuff below it like
+Tells the compiler that the program is over. You can define stuff below it like [subroutines](https://www.tutorialspoint.com/cobol/cobol_subroutines.htm) which are _kind of_ like functions in other languages, but only in the sense that you can give a descriptive alias to a bunch of imperative code.
 
-## A ham-fisted FizzBuzz implementation
+## A ham-fisted interactive FizzBuzz
 
 A stateful, imperative, and soaking wet* FizzBuzz.
 
-I'm a COBOL noob so I have no idea if you can define functions with parameters. For now I'm guessing no, because so far I've only seen global read/write pointers ¯\\_(ツ)_/¯
+In newer languages, I'd write functions with named parameters, but you can't really do that in COBOL, and it kind of makes sense why if you think about it. Memory management and pointer references are 100% manually operated in COBOL (because it was 1959), so even in functions receiving parameters, any reassignment would still require a `MOVE` statement. All data is just global inside a procedure -- encapsulation doesn't seem to be designed into the language at this level. To get encapsulation, you'd write separate procedures and probably declare its collaborators in the ENVIRONMENT DIVISION.
 
 \* as in, it's not very DRY, get it???
 
@@ -145,4 +145,10 @@ PLAY-FIZZBUZZ.
 
 ## Unit testing?
 
-There are libraries that people have written... I'm sure they exist....
+There are libraries that people have written... I'm sure they exist.... here's one! https://github.com/neopragma/cobol-unit-test
+
+Didn't try it out this day, can't say how bootstrappable it is.
+
+## Go play!
+
+I've published snippets of code from the day on [my GitHub](https://github.com/deniseyu/learning-cobol). You can also check [Spike's implementations](https://github.com/spike01/plibmttbhgaty-cobol) of FizzBuzz and Tic tac toe.
