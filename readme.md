@@ -1,3 +1,9 @@
+#### Update
+
+This has been turned into a [blog post](https://deniseyu.github.io/learning-cobol-in-2018) and [slide deck](https://slides.com/deniseyu/cobol).
+
+------
+
 This past weekend, I finally ventured out of my burnout-induced cave to attend a tech event on a weekend: [PLIBMTTBHGATY](http://plibmttbhgaty.com/), one of my favorite formats for events where you learn stuff. The Programming Language I've Been Meaning To Try that I chose was COBOL. Surprisingly, no one else (except Spike) wanted to learn COBOL with me?!?
 
 My main takeaway from the day is that COBOL was a *lot* easier to get started with than I anticipated. The syntax was obviously unlike any modern programming language I've used, but it was easy to read, because it was so imperative and there was no magic going on. After all, COBOL was one of the first languages designed for human readability.
